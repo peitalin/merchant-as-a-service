@@ -35,16 +35,18 @@ const func: DeployFunction = async function () {
     })
 
   // Contract Deployments
-  const meem = await deployContract("WanderingMerchant");
+  const skipDeploy = false;
+
+  const meem = await deployContract("WanderingMerchant", skipDeploy);
   console.log(`deployed Wandering Merchant to ${meem.address}`);
 
-  const squirePotions = await deployContract("SquirePotions");
+  const squirePotions = await deployContract("SquirePotions", skipDeploy);
   console.log(`deployed SquirePotions to ${squirePotions.address}`);
 
-  const gear = await deployContract("Gear");
+  const gear = await deployContract("Gear", skipDeploy);
   console.log(`deployed KOTE Gear to ${gear.address}`);
 
-  const squires = await deployContract("KOTESquires");
+  const squires = await deployContract("KOTESquires", skipDeploy);
   console.log(`deployed KOTE Squires to ${squires.address}`);
 
 
@@ -104,12 +106,12 @@ const func: DeployFunction = async function () {
   );
 
   const teamAdmins: string[] = [
-    // add admin wallets
+    // Add admin addresses here
   ];
 
   await setAdmins('WanderingMerchant', ...teamAdmins);
-  await setAdmins('KOTESquires', [meem.address, ...teamAdmins]);
-  await setAdmins('Gear', [meem.address, ...teamAdmins]);
+  await setAdmins('KOTESquires', meem.address, ...teamAdmins);
+  await setAdmins('Gear', meem.address, ...teamAdmins);
 
   unpauseContractIfNeeded('WanderingMerchant')
   unpauseContractIfNeeded('KOTESquires')
@@ -118,7 +120,7 @@ const func: DeployFunction = async function () {
 
   async function setSquirePotionsAllowedContracts(allowedContracts: string[]) {
     let numAllowedContracts = 0;
-    for (var addr in allowedContracts) {
+    for (let addr of allowedContracts) {
       if (await read("SquirePotions", "checkAllowedContracts", addr)) {
         numAllowedContracts += 1
       }
@@ -148,7 +150,7 @@ func().catch((error) => {
 });
 
 
-// npx hardhat run --network arbitrumSepolia scripts/deploy.ts
+// npx hardhat run --network arbitrumSepolia deploy/deploy_all.ts
 
 // npx hardhat verify --network arbitrumSepolia
 
