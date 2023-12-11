@@ -2,7 +2,7 @@
 
 Add your .env file then run this to deploy to arbitrum sepolia:
 ```
-npx hardhat run --network arbitrumSepolia scripts/deploy.ts
+npx hardhat run --network arbitrumSepolia deploy/deploy_all.ts
 ```
 
 Then run this to verify the contracts + link proxies with implementation contracts when upgrading
@@ -21,5 +21,5 @@ npx hardhat help
 npx hardhat test
 REPORT_GAS=true npx hardhat test
 npx hardhat node
-npx hardhat run scripts/deploy.ts
+npx hardhat run deploy/deploy_all.ts
 ```
