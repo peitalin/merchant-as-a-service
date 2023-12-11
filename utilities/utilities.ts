@@ -1,8 +1,7 @@
 
 import { deployments, ethers, network } from "hardhat";
-import { ContractTransaction, BigNumber, Contract, BigNumberish } from "ethers";
+import { ContractTransaction, BigNumber, Contract } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { Legion, LegionMetadataStore, Randomizer } from "../typechain-types";
 
 export module Utilities {
 
@@ -44,19 +43,5 @@ export module Utilities {
             deployment.abi,
             deployer
         ) as T;
-    }
-
-    export async function getAnyDeployedContract(name: string, deployer: SignerWithAddress) : Promise<Contract> {
-        const deployment = await deployments.get(name);
-        return new Contract(
-            deployment.address,
-            deployment.abi,
-            deployer
-        );
-    }
-
-    export async function setRandomNumber(randomizer: Randomizer, random: BigNumberish) {
-        await(await randomizer.incrementCommitId()).wait();
-        await(await randomizer.addRandomForCommit(random)).wait();
     }
 }

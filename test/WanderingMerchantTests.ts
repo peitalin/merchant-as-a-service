@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Utilities } from "../utilities/utilities";
-import { deployments, ethers } from "hardhat"
+import { deployments, ethers, network } from "hardhat"
 import { SquirePotions, WanderingMerchant } from "../typechain-types";
 
 
@@ -15,7 +15,11 @@ describe("WanderingMerchant", function () {
     beforeEach(async () => {
         Utilities.changeAutomineEnabled(true);
 
-        // TODO: need to get hardhat-deploy fixtures working for tests
+        let signers = await ethers.getSigners();
+        _ownerWallet = signers[0];
+        _otherWallet = signers[1];
+
+        // error: "nonce has already been used"
         await deployments.fixture(['deployments'], { fallbackToGlobal: false });
         wanderingMerchant = await Utilities.getDeployedContract<WanderingMerchant>('WanderingMerchant', _ownerWallet);
         squirePotions = await Utilities.getDeployedContract<SquirePotions>('SquirePotions', _ownerWallet);
