@@ -1,4 +1,4 @@
-## Meem-as-a-service
+## Merchant-as-a-service
 
 Add your .env file then run this to deploy to arbitrum sepolia:
 ```
